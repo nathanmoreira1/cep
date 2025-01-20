@@ -36,4 +36,21 @@ Agora você pode testar a API de CEP no seu navegador ou utilizando ferramentas 
 
 ---
 
+## Documentação de Endpoints
+
+### 1. Endpoint: `/cep`
+
+- **Método**: `GET`
+- **Parâmetros**:
+  - `cep`: O CEP desejado. Deve ser fornecido sem formatação (somente números).
+
+- **Exemplo de requisição**:
+
+  `GET http://localhost:8000/cep?cep=01001000`
+
+- **Resposta**:
+  A resposta será um JSON com as informações do CEP fornecido, como o logradouro, cidade, estado, etc. Em caso de erro, será retornado um código 404 com a mensagem "CEP não encontrado".
+
+---
+
 Se você encontrar algum problema ou tiver dúvidas, fique à vontade para abrir uma issue no repositório.
