@@ -9,7 +9,7 @@ Este é um projeto PHP para consultar dados de CEP.
 Clone o repositório utilizando o comando abaixo:
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone git@github.com:nathanmoreira1/cep.git
 ```
 
 ### Passo 2: Instalar as dependências
