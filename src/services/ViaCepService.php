@@ -14,7 +14,7 @@ class ViaCepService implements CepServiceInterface
         $url = self::BASE_URL . $cep . '/json/';
         try {
             $response = file_get_contents($url);
-            $data = json_decode($response, true);
+            $data = json_decode($response, true, 512, JSON_UNESCAPED_UNICODE);
 
             if (isset($data['erro'])) {
                 return null;
