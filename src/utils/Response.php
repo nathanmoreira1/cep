@@ -5,15 +5,15 @@ namespace App\Utils;
 class Response
 {
     /**
-     * Envia uma resposta HTTP com código de status e dados em JSON.
+     * Returns an HTTP response with a status code and data in JSON.
      *
-     * @param int $statusCode O código de status HTTP.
-     * @param array $data Os dados a serem enviados na resposta.
+     * @param int $statusCode The HTTP status code.
+     * @param array $data The data to be sent in the response.
+     * @return string The JSON response.
      */
-    public static function send(int $statusCode, array $data)
+    public static function createResponse(int $statusCode, array $data): string
     {
         http_response_code($statusCode);
-        echo json_encode($data);
-        exit;
+        return json_encode($data);
     }
 }
