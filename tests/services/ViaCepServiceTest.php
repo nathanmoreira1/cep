@@ -4,6 +4,8 @@ namespace Tests\Services;
 
 use PHPUnit\Framework\TestCase;
 use App\Services\ViaCepService;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 
 /**
  * Unit tests for the ViaCepService class.
@@ -13,17 +15,20 @@ use App\Services\ViaCepService;
  * - Valid CEPs, ensuring the service returns the correct address data.
  * - Invalid CEPs, ensuring the service returns null.
  *
- * Mocks the fetchContent method to simulate API responses.
+ * Mocks the GuzzleHttp\Client to simulate API responses.
  */
 class ViaCepServiceTest extends TestCase
 {
+    private $httpClientMock;
     private $viaCepService;
 
     protected function setUp(): void
     {
-        $this->viaCepService = $this->getMockBuilder(ViaCepService::class)
-            ->onlyMethods(['fetchContent'])
-            ->getMock();
+        // Mock the GuzzleHttp\Client
+        $this->httpClientMock = $this->createMock(Client::class);
+
+        // Inject the mocked HTTP client into the ViaCepService
+        $this->viaCepService = new ViaCepService($this->httpClientMock);
     }
 
     public function test_valid_cep_returns_address_data(): void
@@ -34,13 +39,14 @@ class ViaCepServiceTest extends TestCase
             'logradouro' => 'Praça da Sé',
             'bairro' => 'Sé',
             'localidade' => 'São Paulo',
-            'uf' => 'SP'
+            'uf' => 'SP',
         ];
 
-        $this->viaCepService->expects($this->once())
-            ->method('fetchContent')
+        // Simulate a valid response from the API
+        $this->httpClientMock->expects($this->once())
+            ->method('get')
             ->with('https://viacep.com.br/ws/01001000/json/')
-            ->willReturn(json_encode($expectedData));
+            ->willReturn(new Response(200, [], json_encode($expectedData)));
 
         $result = $this->viaCepService->fetchCepData($validCep);
 
@@ -52,14 +58,14 @@ class ViaCepServiceTest extends TestCase
         $invalidCep = '00000000';
         $errorResponse = ['erro' => true];
 
-        $this->viaCepService->expects($this->once())
-            ->method('fetchContent')
+        // Simulate a response indicating an invalid CEP
+        $this->httpClientMock->expects($this->once())
+            ->method('get')
             ->with('https://viacep.com.br/ws/00000000/json/')
-            ->willReturn(json_encode($errorResponse));
+            ->willReturn(new Response(200, [], json_encode($errorResponse)));
 
         $result = $this->viaCepService->fetchCepData($invalidCep);
 
         $this->assertNull($result);
     }
 }
-
