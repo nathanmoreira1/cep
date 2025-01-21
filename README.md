@@ -2,6 +2,13 @@
 
 Este é um projeto PHP para consultar dados de CEP.
 
+## Requisitos
+
+Para rodar este projeto, você precisa ter os seguintes itens instalados no seu sistema:
+
+- **PHP**: Versão 7.4 ou superior.
+- **Composer**: Ferramenta para gerenciamento de dependências do PHP.
+
 ## Como rodar o projeto localmente
 
 ### Passo 1: Clonar o repositório
