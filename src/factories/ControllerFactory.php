@@ -4,6 +4,14 @@ namespace App\Factories;
 
 use App\Utils\ServiceContainer;
 
+/**
+ * ControllerFactory is responsible for creating instances of controller classes.
+ *
+ * It utilizes the ServiceContainer to resolve dependencies required by the
+ * controller's constructor through reflection. This allows for automatic
+ * dependency injection, ensuring that all necessary services are provided
+ * to the controller upon instantiation.
+ */
 class ControllerFactory
 {
     private $container;
@@ -13,15 +21,21 @@ class ControllerFactory
         $this->container = $container;
     }
 
-    // Método genérico para criar qualquer controlador
+    /**
+     * Creates an instance of the specified controller class.
+     *
+     * Uses reflection to inspect the constructor of the given controller class
+     * and resolves its dependencies using the service container.
+     *
+     * @param string $controllerClass The fully qualified name of the controller class to instantiate.
+     * @return object An instance of the specified controller class.
+     */
     public function create(string $controllerClass)
     {
-        // Verifica se o controlador tem dependências e resolve elas automaticamente
         $reflection = new \ReflectionClass($controllerClass);
         $constructor = $reflection->getConstructor();
 
         if ($constructor === null) {
-            // Caso o controlador não tenha construtor, apenas instancie
             return new $controllerClass();
         }
 
@@ -31,13 +45,12 @@ class ControllerFactory
         foreach ($parameters as $parameter) {
             $type = $parameter->getType();
             if ($type && $type->getName()) {
-                // Verifica se o tipo é uma classe e resolve a dependência no container
                 $dependency = $this->container->resolve($type->getName());
                 $dependencies[] = $dependency;
             }
         }
 
-        // Cria o controlador com as dependências resolvidas
         return $reflection->newInstanceArgs($dependencies);
     }
 }
+

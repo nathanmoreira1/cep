@@ -7,11 +7,11 @@ class Router
     private $routes = [];
 
     /**
-     * Adiciona uma rota ao roteador.
+     * Adds a route to the router.
      *
-     * @param string $method O método HTTP (GET, POST, etc.).
-     * @param string $path O caminho da rota.
-     * @param callable $handler O manipulador da rota.
+     * @param string $method The HTTP method (GET, POST, etc.).
+     * @param string $path The path of the route.
+     * @param callable $handler The route handler.
      */
     public function add(string $method, string $path, callable $handler)
     {
@@ -23,10 +23,10 @@ class Router
     }
 
     /**
-     * Processa a requisição e despacha a rota correspondente.
+     * Processes the request and dispatches the corresponding route.
      *
-     * @param string $method O método HTTP da requisição.
-     * @param string $uri O URI da requisição.
+     * @param string $method The HTTP method of the request.
+     * @param string $uri The URI of the request.
      */
     public function dispatch(string $method, string $uri)
     {
@@ -44,10 +44,10 @@ class Router
     }
 
     /**
-     * Normaliza o caminho da rota, removendo barras desnecessárias.
+     * Normalizes the route path by removing unnecessary slashes.
      *
-     * @param string $path O caminho a ser normalizado.
-     * @return string O caminho normalizado.
+     * @param string $path The path to be normalized.
+     * @return string The normalized path.
      */
     private function normalizePath(string $path): string
     {
