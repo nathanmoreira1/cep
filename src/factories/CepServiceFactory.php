@@ -3,6 +3,7 @@
 namespace App\Factories;
 
 use App\Contracts\CepServiceInterface;
+use GuzzleHttp\Client;
 
 /**
  * Creates an instance of the CEP service.
@@ -26,7 +27,10 @@ class CepServiceFactory
     {
         $config = require __DIR__ . '/../../config/services.php';
         $cepServiceClass = $config['cep_service'];
-        return new $cepServiceClass(); 
+        $httpClient = new Client([
+            'timeout'  => 5.0,
+        ]); 
+        return new $cepServiceClass($httpClient); 
     }
 }
 

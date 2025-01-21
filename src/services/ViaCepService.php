@@ -3,21 +3,17 @@
 namespace App\Services;
 
 use App\Contracts\CepServiceInterface;
-use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class ViaCepService implements CepServiceInterface
 {
     private const BASE_URL = 'https://viacep.com.br/ws/';
+    private Client $httpClient;
 
-    /**
-     * Retrieves the content of the specified URL.
-     *
-     * @param string $url The URL from which to fetch the content.
-     * @return string|false The content of the URL or false on failure.
-     */
-    public function fetchContent(string $url)
+    public function __construct(Client $httpClient)
     {
-        return file_get_contents($url);
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -28,20 +24,18 @@ class ViaCepService implements CepServiceInterface
      */
     public function fetchCepData(string $cep): ?array
     {
-        $url = self::BASE_URL . $cep . '/json/';
         try {
-            $response = $this->fetchContent($url);
-            $data = json_decode($response, true, 512, JSON_UNESCAPED_UNICODE);
+            $response = $this->httpClient->get(self::BASE_URL . $cep . '/json/');
+            $data = json_decode($response->getBody()->getContents(), true, 512, JSON_UNESCAPED_UNICODE);
 
             if (isset($data['erro'])) {
                 return null;
             }
 
             return $data;
-        } catch (Exception $e) {
+        } catch (RequestException $e) {
             error_log('Erro ao consultar o CEP: ' . $e->getMessage());
             return null;
         }
     }
 }
-
