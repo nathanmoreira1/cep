@@ -5,6 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use App\Utils\Router;
 
 header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
 
 try {
     $router = new Router();
