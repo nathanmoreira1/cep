@@ -5,10 +5,10 @@ namespace App\Contracts;
 interface CepServiceInterface
 {
     /**
-     * Busca informações de um CEP.
+     * Fetches information for a ZIP code.
      *
-     * @param string $cep O CEP a ser buscado.
-     * @return array|null Os dados do CEP ou null se não encontrados.
+     * @param string $cep The ZIP code to be searched.
+     * @return array|null The ZIP code data or null if not found.
      */
     public function fetchCepData(string $cep): ?array;
 }
