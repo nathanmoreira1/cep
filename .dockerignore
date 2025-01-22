@@ -1,0 +1,28 @@
+# Ignore version control files
+.git
+.gitignore
+
+# Ignore local dependencies (will be installed in the container)
+vendor/
+
+# Ignore locally generated Composer configuration files
+composer.lock
+
+# Ignore temporary and cache files
+node_modules/
+*.log
+*.cache
+*.tmp
+
+# Ignore operating system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE-related folders and files
+.idea/
+*.iml
+
+# Ignore Docker build files
+Dockerfile
+docker-compose.yml
+.dockerignore
